@@ -83,7 +83,8 @@ https://github.com/user-attachments/assets/5806ccfa-aba1-4ae4-86c2-cf5ed838cad5
 
 Periodic state snapshots for long-running jobs — crash mid-execution and resume from where you left off.
 
-https://github.com/user-attachments/assets/REPLACE_WITH_CHECKPOINT_VIDEO_URL
+https://github.com/user-attachments/assets/fff9451e-70d1-4ea5-8883-3216a77a0fe7
+
 
 ---
 
