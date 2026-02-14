@@ -7,6 +7,37 @@ interface JobStateChartProps {
   byState: Record<string, number>;
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+function CustomTooltip({ active, payload }: any) {
+  if (!active || !payload?.length) return null;
+  const { name, value } = payload[0];
+  return (
+    <div
+      style={{
+        backgroundColor: "#0f172a",
+        border: "1px solid #475569",
+        borderRadius: "8px",
+        padding: "8px 12px",
+        boxShadow: "0 10px 25px rgba(0,0,0,0.5)",
+      }}
+    >
+      <p style={{ color: "#e2e8f0", fontSize: "13px", margin: 0, fontWeight: 500 }}>
+        <span
+          style={{
+            display: "inline-block",
+            width: 10,
+            height: 10,
+            borderRadius: "50%",
+            backgroundColor: CHART_COLORS[name] || "#64748b",
+            marginRight: 8,
+          }}
+        />
+        {name}: <strong>{value}</strong>
+      </p>
+    </div>
+  );
+}
+
 export function JobStateChart({ byState }: JobStateChartProps) {
   const data = Object.entries(byState)
     .filter(([, count]) => count > 0)
@@ -36,18 +67,7 @@ export function JobStateChart({ byState }: JobStateChartProps) {
             <Cell key={entry.name} fill={CHART_COLORS[entry.name] || "#64748b"} />
           ))}
         </Pie>
-        <Tooltip
-          contentStyle={{
-            backgroundColor: "#0f172a",
-            border: "1px solid #334155",
-            borderRadius: "8px",
-            color: "#e2e8f0",
-            boxShadow: "0 10px 25px rgba(0,0,0,0.5)",
-          }}
-          itemStyle={{ color: "#e2e8f0" }}
-          labelStyle={{ color: "#94a3b8", fontWeight: 600, marginBottom: 4 }}
-          cursor={{ fill: "rgba(148, 163, 184, 0.1)" }}
-        />
+        <Tooltip content={<CustomTooltip />} cursor={{ fill: "rgba(148, 163, 184, 0.1)" }} />
         <Legend
           formatter={(value) => <span className="text-sm text-slate-300">{value}</span>}
         />
@@ -55,3 +75,4 @@ export function JobStateChart({ byState }: JobStateChartProps) {
     </ResponsiveContainer>
   );
 }
+
