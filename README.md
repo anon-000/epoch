@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/epoch-title.svg" alt="Epoch" width="280" />
+  <img src="assets/epoch-title.svg" alt="Epoch" width="350" />
 </p>
 
 <p align="center">
