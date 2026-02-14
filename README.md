@@ -49,29 +49,42 @@ It's designed to answer the question: _"What does it actually take to build a re
 
 ## 📸 Walkthroughs
 
+
+
 ### 🖥️ Dashboard Overview
 
 Real-time metrics, job distribution charts, worker utilization, and recent activity feed.
 
-https://raw.githubusercontent.com/anon-000/epoch/main/walkthroughs/dashboard_walkthrough.mov
+[https://raw.githubusercontent.com/anon-000/epoch/main/walkthroughs/dashboard_walkthrough.mov
+](https://github.com/user-attachments/assets/8a534ec5-80e3-4e6f-9aab-cba97237fede
+)
 
 ### 📋 Jobs Lifecycle
 
 Submitting jobs, watching state transitions, retries, failures, dead letter flow, and the full event timeline.
 
-https://raw.githubusercontent.com/anon-000/epoch/main/walkthroughs/jobs_walkthrough.mov
+https://github.com/user-attachments/assets/00a87619-30f1-4c93-a8f4-1f02cf4ea1e2
+
 
 ### 👷 Workers
 
 Worker pool management, heartbeats, slot utilization, and drain mode.
 
-https://raw.githubusercontent.com/anon-000/epoch/main/walkthroughs/workers.mov
+
+
+https://github.com/user-attachments/assets/03dc02a9-5ae6-4f45-aa03-825940dd2217
+
+
+
 
 ### 🏢 Tenant Management
 
 Multi-tenant configuration, per-tenant quotas, and priority boost.
 
-https://raw.githubusercontent.com/anon-000/epoch/main/walkthroughs/tenants_demo.mov
+
+https://github.com/user-attachments/assets/eb8378c9-4952-444d-ab93-80aaf3e00551
+
+
 
 ---
 
