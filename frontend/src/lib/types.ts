@@ -143,3 +143,15 @@ export interface JobEvent {
   timestamp: string;
   metadata: Record<string, unknown> | null;
 }
+
+export interface AuditEvent extends JobEvent {
+  job_id: string;
+  job_name: string;
+  tenant_id: string;
+}
+
+export interface AuditLogResponse {
+  total: number;
+  events: AuditEvent[];
+}
+

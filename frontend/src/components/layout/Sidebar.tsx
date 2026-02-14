@@ -9,6 +9,7 @@ import {
   Users,
   AlertTriangle,
   Activity,
+  ScrollText,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { NAV_ITEMS } from "@/lib/constants";
@@ -22,6 +23,7 @@ const iconMap: Record<string, React.ElementType> = {
   Server,
   Users,
   AlertTriangle,
+  ScrollText,
 };
 
 export function Sidebar() {

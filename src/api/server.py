@@ -4,7 +4,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from src.api.routes import admin, jobs, metrics, workers
+from src.api.routes import admin, events, jobs, metrics, workers
 from src.db.session import init_db, close_db
 from src.queue.redis_queue import redis_queue
 
@@ -42,3 +42,4 @@ app.include_router(jobs.router, prefix="/api/v1")
 app.include_router(workers.router, prefix="/api/v1")
 app.include_router(admin.router, prefix="/api/v1")
 app.include_router(metrics.router, prefix="/api/v1")
+app.include_router(events.router, prefix="/api/v1")

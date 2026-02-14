@@ -55,6 +55,7 @@ export const NAV_ITEMS: NavItem[] = [
   { label: "Workers", href: "/workers", icon: "Server" },
   { label: "Tenants", href: "/tenants", icon: "Users" },
   { label: "Dead Letter", href: "/dead-letter", icon: "AlertTriangle" },
+  { label: "Audit Logs", href: "/audit-logs", icon: "ScrollText" },
 ];
 
 // Polling
