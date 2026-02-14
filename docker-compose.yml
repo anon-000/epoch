@@ -1,0 +1,106 @@
+x-common-env: &common-env
+  EPOCH_DATABASE_URL: "postgresql+asyncpg://epoch:epoch@postgres:5432/epoch"
+  EPOCH_DATABASE_URL_SYNC: "postgresql+psycopg2://epoch:epoch@postgres:5432/epoch"
+  EPOCH_REDIS_URL: "redis://redis:6379/0"
+  EPOCH_CHECKPOINT_DIR: "/data/checkpoints"
+
+x-common-depends: &common-depends
+  postgres:
+    condition: service_healthy
+  redis:
+    condition: service_healthy
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: epoch
+      POSTGRES_PASSWORD: epoch
+      POSTGRES_DB: epoch
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U epoch"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build: .
+    command: python run_api.py
+    ports:
+      - "8000:8000"
+    environment:
+      <<: *common-env
+    depends_on:
+      <<: *common-depends
+    volumes:
+      - .:/app
+      - checkpoints:/data/checkpoints
+
+  scheduler:
+    build: .
+    command: python run_scheduler.py
+    environment:
+      <<: *common-env
+    depends_on:
+      <<: *common-depends
+    volumes:
+      - .:/app
+
+  scheduler-standby:
+    build: .
+    command: python run_scheduler.py
+    environment:
+      <<: *common-env
+    depends_on:
+      <<: *common-depends
+    volumes:
+      - .:/app
+
+  worker-1:
+    build: .
+    command: python run_worker.py --slots 4
+    environment:
+      <<: *common-env
+    depends_on:
+      <<: *common-depends
+    volumes:
+      - .:/app
+      - checkpoints:/data/checkpoints
+
+  worker-2:
+    build: .
+    command: python run_worker.py --slots 4
+    environment:
+      <<: *common-env
+    depends_on:
+      <<: *common-depends
+    volumes:
+      - .:/app
+      - checkpoints:/data/checkpoints
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      BACKEND_URL: "http://api:8000"
+    depends_on:
+      - api
+
+volumes:
+  pgdata:
+  checkpoints:
