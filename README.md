@@ -53,25 +53,25 @@ It's designed to answer the question: _"What does it actually take to build a re
 
 Real-time metrics, job distribution charts, worker utilization, and recent activity feed.
 
-https://github.com/user-attachments/assets/PLACEHOLDER_DASHBOARD_VIDEO_ID
+https://raw.githubusercontent.com/anon-000/epoch/main/walkthroughs/dashboard_walkthrough.mov
 
 ### 📋 Jobs Lifecycle
 
 Submitting jobs, watching state transitions, retries, failures, dead letter flow, and the full event timeline.
 
-https://github.com/user-attachments/assets/PLACEHOLDER_JOBS_VIDEO_ID
+https://raw.githubusercontent.com/anon-000/epoch/main/walkthroughs/jobs_walkthrough.mov
 
 ### 👷 Workers
 
 Worker pool management, heartbeats, slot utilization, and drain mode.
 
-https://github.com/user-attachments/assets/PLACEHOLDER_WORKERS_VIDEO_ID
+https://raw.githubusercontent.com/anon-000/epoch/main/walkthroughs/workers.mov
 
 ### 🏢 Tenant Management
 
 Multi-tenant configuration, per-tenant quotas, and priority boost.
 
-https://github.com/user-attachments/assets/PLACEHOLDER_TENANTS_VIDEO_ID
+https://raw.githubusercontent.com/anon-000/epoch/main/walkthroughs/tenants_demo.mov
 
 ---
 
