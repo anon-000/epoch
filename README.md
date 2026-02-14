@@ -49,14 +49,29 @@ It's designed to answer the question: _"What does it actually take to build a re
 
 ## 📸 Walkthroughs
 
-> **Video demos** of the system in action.
+### 🖥️ Dashboard Overview
 
-| Walkthrough                                                     | Description                                                                                      |
-| --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| 🖥️ [Dashboard Overview](walkthroughs/dashboard_walkthrough.mov) | Real-time metrics, job distribution charts, worker utilization, recent activity feed             |
-| 📋 [Jobs Lifecycle](walkthroughs/jobs_walkthrough.mov)          | Submitting jobs, watching state transitions, retries, failures, dead letter flow, event timeline |
-| 👷 [Workers](walkthroughs/workers.mov)                          | Worker pool management, heartbeats, slot utilization, drain mode                                 |
-| 🏢 [Tenant Management](walkthroughs/tenants_demo.mov)           | Multi-tenant configuration, per-tenant quotas, priority boost                                    |
+Real-time metrics, job distribution charts, worker utilization, and recent activity feed.
+
+https://github.com/user-attachments/assets/PLACEHOLDER_DASHBOARD_VIDEO_ID
+
+### 📋 Jobs Lifecycle
+
+Submitting jobs, watching state transitions, retries, failures, dead letter flow, and the full event timeline.
+
+https://github.com/user-attachments/assets/PLACEHOLDER_JOBS_VIDEO_ID
+
+### 👷 Workers
+
+Worker pool management, heartbeats, slot utilization, and drain mode.
+
+https://github.com/user-attachments/assets/PLACEHOLDER_WORKERS_VIDEO_ID
+
+### 🏢 Tenant Management
+
+Multi-tenant configuration, per-tenant quotas, and priority boost.
+
+https://github.com/user-attachments/assets/PLACEHOLDER_TENANTS_VIDEO_ID
 
 ---
 
@@ -140,8 +155,8 @@ Then open [localhost:3000](http://localhost:3000) to watch it flow through the s
 └────────┬────────┘
          │ Writes job to DB + pushes to Redis queue
          ▼
-┌────────────────────────────────────────────────────────────┐
-│                                                            │
+┌───────────────────────────────────────────────────────────┐
+│                                                           │
 │   ┌──────────────┐         ┌──────────────┐               │
 │   │  PostgreSQL  │◄───────►│    Redis     │               │
 │   │              │         │              │               │
@@ -156,22 +171,22 @@ Then open [localhost:3000](http://localhost:3000) to watch it flow through the s
 │   ┌───────────────────────────────┼────────────────────┐  │
 │   │         Scheduler (Leader-Elected)                 │  │
 │   │                               │                    │  │
-│   │  ┌─────────────┐    ┌────────┴───────┐            │  │
-│   │  │  Scheduler   │    │  Scheduler     │            │  │
-│   │  │  (Active) 👑 │    │  (Standby) ⏳  │            │  │
-│   │  └──────┬───────┘    └───────────────┘            │  │
+│   │  ┌─────────────┐    ┌────────┴──────┐              │  │
+│   │  │  Scheduler  │    │  Scheduler    │              │  │
+│   │  │  (Active) 👑│    │  (Standby) ⏳ │               │  │
+│   │  └──────┬──────┘    └──────────────┘               │  │
 │   │         │ Assigns jobs to workers                  │  │
 │   └─────────┼──────────────────────────────────────────┘  │
 │             ▼                                             │
 │   ┌────────────────────────────────────────────────────┐  │
 │   │              Worker Pool                           │  │
 │   │                                                    │  │
-│   │  ┌──────────┐  ┌──────────┐  ┌──────────┐        │  │
-│   │  │ Worker 1 │  │ Worker 2 │  │ Worker N │        │  │
-│   │  │ (4 slots)│  │ (4 slots)│  │ (4 slots)│        │  │
-│   │  └──────────┘  └──────────┘  └──────────┘        │  │
+│   │  ┌──────────┐  ┌──────────┐  ┌──────────┐          │  │
+│   │  │ Worker 1 │  │ Worker 2 │  │ Worker N │          │  │
+│   │  │ (4 slots)│  │ (4 slots)│  │ (4 slots)│          │  │
+│   │  └──────────┘  └──────────┘  └──────────┘          │  │
 │   └────────────────────────────────────────────────────┘  │
-└────────────────────────────────────────────────────────────┘
+└───────────────────────────────────────────────────────────┘
 ```
 
 ### Tech Stack
@@ -432,7 +447,7 @@ Job starts → executes work → periodically saves checkpoint
      │   │ 1. Job serializes its current state  │
      │   │ 2. Blob written to checkpoint store  │
      │   │ 3. Metadata saved to PostgreSQL      │
-     │   │    (path, sequence #, timestamp)      │
+     │   │    (path, sequence #, timestamp)     │
      │   └──────────────────────────────────────┘
      │
      ▼
@@ -512,24 +527,24 @@ Only **one scheduler** should be assigning jobs at any time. Multiple schedulers
 
 ```
                   ┌─────────────────────────────────┐
-                  │       PostgreSQL                 │
-                  │                                  │
-                  │   Advisory Lock #123456789       │
-                  │   ┌───────────────────────┐      │
-                  │   │   Held by: Scheduler A │     │
-                  │   │   Since: 2 minutes ago │     │
-                  │   └───────────────────────┘      │
-                  │                                  │
+                  │       PostgreSQL                │
+                  │                                 │
+                  │   Advisory Lock #123456789      │
+                  │   ┌───────────────────────┐     │
+                  │   │   Held by: Scheduler A│     │
+                  │   │   Since: 2 minutes ago│     │
+                  │   └───────────────────────┘     │
+                  │                                 │
                   └─────────────┬───────────────────┘
                                 │
               ┌─────────────────┼──────────────────┐
-              │                 │                   │
-              ▼                 ▼                   ▼
+              │                 │                  │
+              ▼                 ▼                  ▼
      ┌─────────────┐  ┌──────────────┐  ┌─────────────────┐
      │ Scheduler A │  │ Scheduler B  │  │  Scheduler C    │
-     │  (Leader) 👑 │  │ (Standby) ⏳ │  │  (Standby) ⏳   │
+     │  (Leader) 👑│  │ (Standby) ⏳ │  │  (Standby) ⏳    │
      │             │  │              │  │                 │
-     │ Acquired ✅  │  │ Try → fail   │  │  Try → fail     │
+     │ Acquired ✅ │  │ Try → fail   │  │  Try → fail     │
      │ Scheduling  │  │ Try → fail   │  │  Try → fail     │
      │             │  │ Try → fail   │  │  Try → fail     │
      └─────────────┘  └──────────────┘  └─────────────────┘
