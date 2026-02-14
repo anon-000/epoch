@@ -1,8 +1,6 @@
 <p align="center">
-  <img src="assets/banner.png" alt="Epoch — Distributed Job Scheduler" width="600" />
+  <img src="assets/epoch-title.svg" alt="Epoch" width="280" />
 </p>
-
-<h1 align="center">Epoch</h1>
 
 <p align="center">
   <strong>A production-grade distributed job scheduler built from scratch.</strong><br/>
