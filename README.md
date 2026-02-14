@@ -73,6 +73,14 @@ Multi-tenant configuration, per-tenant quotas, and priority boost.
 
 https://github.com/user-attachments/assets/eb8378c9-4952-444d-ab93-80aaf3e00551
 
+
+### 🏢 Audit Logs
+
+Multi-tenant configuration, per-tenant quotas, and priority boost.
+
+https://github.com/user-attachments/assets/5806ccfa-aba1-4ae4-86c2-cf5ed838cad5
+
+
 ---
 
 ## 🚀 Quickstart
