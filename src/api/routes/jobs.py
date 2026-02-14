@@ -177,3 +177,37 @@ async def get_job_events(job_id: uuid.UUID, session: AsyncSession = Depends(get_
         }
         for e in events
     ]
+
+
+@router.get("/{job_id}/checkpoints")
+async def get_job_checkpoints(job_id: uuid.UUID, session: AsyncSession = Depends(get_session)):
+    """Get all checkpoints for a job."""
+    from src.models.checkpoint import Checkpoint
+
+    job = await session.get(Job, job_id)
+    if not job:
+        raise HTTPException(status_code=404, detail="Job not found")
+
+    result = await session.execute(
+        select(Checkpoint)
+        .where(Checkpoint.job_id == job_id)
+        .order_by(Checkpoint.sequence_number.desc())
+    )
+    checkpoints = result.scalars().all()
+
+    return {
+        "job_id": str(job_id),
+        "latest_checkpoint_id": str(job.checkpoint_id) if job.checkpoint_id else None,
+        "total": len(checkpoints),
+        "checkpoints": [
+            {
+                "id": str(cp.id),
+                "sequence_number": cp.sequence_number,
+                "size_bytes": cp.size_bytes,
+                "storage_path": cp.storage_path,
+                "created_at": cp.created_at.isoformat(),
+                "is_latest": str(cp.id) == str(job.checkpoint_id) if job.checkpoint_id else False,
+            }
+            for cp in checkpoints
+        ],
+    }

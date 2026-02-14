@@ -155,3 +155,20 @@ export interface AuditLogResponse {
   events: AuditEvent[];
 }
 
+export interface CheckpointInfo {
+  id: string;
+  sequence_number: number;
+  size_bytes: number;
+  storage_path: string;
+  created_at: string;
+  is_latest: boolean;
+}
+
+export interface CheckpointListResponse {
+  job_id: string;
+  latest_checkpoint_id: string | null;
+  total: number;
+  checkpoints: CheckpointInfo[];
+}
+
+

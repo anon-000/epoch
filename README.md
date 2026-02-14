@@ -75,9 +75,15 @@ https://github.com/user-attachments/assets/eb8378c9-4952-444d-ab93-80aaf3e00551
 
 ### 🏢 Audit Logs
 
-Multi-tenant configuration, per-tenant quotas, and priority boost.
+Immutable event history across all jobs — filter by event type, tenant, job name, and date range for full operational visibility.
 
 https://github.com/user-attachments/assets/5806ccfa-aba1-4ae4-86c2-cf5ed838cad5
+
+### 📸 Checkpoints
+
+Periodic state snapshots for long-running jobs — crash mid-execution and resume from where you left off.
+
+https://github.com/user-attachments/assets/REPLACE_WITH_CHECKPOINT_VIDEO_URL
 
 ---
 

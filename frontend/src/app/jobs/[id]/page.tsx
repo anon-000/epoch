@@ -7,6 +7,7 @@ import { PageContainer } from "@/components/layout/PageContainer";
 import { StatusBadge } from "@/components/shared/StatusBadge";
 import { LoadingSpinner } from "@/components/shared/LoadingSpinner";
 import { JobTimeline } from "@/components/jobs/JobTimeline";
+import { JobCheckpoints } from "@/components/jobs/JobCheckpoints";
 import { usePolling } from "@/hooks/usePolling";
 import { api } from "@/lib/api";
 import type { Job } from "@/lib/types";
@@ -123,6 +124,8 @@ export default function JobDetailPage({ params }: { params: Promise<{ id: string
               </pre>
             </div>
           )}
+          {/* Checkpoints */}
+          <JobCheckpoints jobId={job.id} />
         </div>
 
         {/* Timeline */}

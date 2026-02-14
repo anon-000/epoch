@@ -31,7 +31,8 @@ class LongRunningJob(BaseJob):
     async def run(self, payload: dict, resume_state: dict | None = None) -> dict:
         self.total_steps = payload.get("total_steps", 100)
         step_duration = payload.get("step_duration", 0.5)
-        fail_at_step = payload.get("fail_at_step", None)
+        # Only trigger simulated failure on fresh runs (not after checkpoint resume)
+        fail_at_step = payload.get("fail_at_step", None) if not resume_state else None
 
         start_step = 1
         if resume_state:
