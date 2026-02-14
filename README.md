@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/epoch-title.svg" alt="Epoch" width="370" />
+  <img src="assets/epoch-title.svg" alt="Epoch" width="380" />
 </p>
 
 <p align="center">
@@ -73,13 +73,11 @@ Multi-tenant configuration, per-tenant quotas, and priority boost.
 
 https://github.com/user-attachments/assets/eb8378c9-4952-444d-ab93-80aaf3e00551
 
-
 ### 🏢 Audit Logs
 
 Multi-tenant configuration, per-tenant quotas, and priority boost.
 
 https://github.com/user-attachments/assets/5806ccfa-aba1-4ae4-86c2-cf5ed838cad5
-
 
 ---
 
@@ -744,6 +742,60 @@ The `job_type` field uses Python's `module:ClassName` format — the executor dy
 4. **No external orchestration dependencies.** No ZooKeeper, no etcd, no Kubernetes CRDs. Just PostgreSQL + Redis — tools every team already runs.
 
 5. **Fail loudly, recover quietly.** Every failure is logged, tracked, and visible. Recovery happens automatically in the background.
+
+---
+
+## 🌍 Real-World Use Cases
+
+Epoch is designed around patterns seen in production job scheduling systems. Here's how it maps to real scenarios:
+
+### 🧾 Invoice & Payment Processing
+
+A fintech platform processes thousands of invoices daily. Each invoice is submitted as a job with `NORMAL` priority, while failed payment retries are resubmitted at `HIGH`. Exponential backoff prevents hammering payment gateways, and the dead letter queue catches permanently declined transactions for manual review.
+
+> **Epoch features used:** Priority queue, automatic retries with backoff, dead letter queue, tenant isolation (per-merchant)
+
+### 🤖 ML Model Training Pipelines
+
+A data team queues model training jobs that run for hours. Checkpointing saves training progress every few minutes, so if a worker crashes mid-epoch (the ML kind), training resumes from the last checkpoint instead of restarting from scratch. Critical production model retrains use `CRITICAL` priority and preempt lower-priority experimental runs.
+
+> **Epoch features used:** Checkpointing, job preemption, long-running job support, priority scheduling
+
+### 📧 Bulk Notification Delivery
+
+An e-commerce platform sends millions of order confirmation emails, SMS alerts, and push notifications. Each tenant (seller) has isolated worker quotas to prevent a single high-volume seller from starving others. The audit log tracks every delivery attempt for compliance.
+
+> **Epoch features used:** Tenant isolation, fair-share scheduling, immutable audit log, high-throughput processing
+
+### 📊 ETL & Data Pipeline Orchestration
+
+A data engineering team runs nightly ETL pipelines — extract from APIs, transform with Python, load into a data warehouse. Each stage is a job with dependencies. Failed stages retry automatically, and the dashboard shows which pipelines are stuck, running, or completed.
+
+> **Epoch features used:** Automatic retries, real-time dashboard, job state tracking, timeout detection
+
+### 🖼️ Media Processing at Scale
+
+A content platform transcodes uploaded videos into multiple resolutions. Video transcoding jobs are CPU-heavy and long-running. Checkpointing tracks progress per resolution, and priority aging ensures older uploads don't starve behind a flood of new ones.
+
+> **Epoch features used:** Checkpointing, priority aging (anti-starvation), worker slot management, timeout handling
+
+### 🏦 Regulatory Report Generation
+
+A bank generates end-of-day regulatory reports across multiple subsidiaries (tenants). Each subsidiary has dedicated worker capacity. Reports must complete within a deadline — timed-out jobs are flagged immediately. The full audit trail satisfies compliance requirements.
+
+> **Epoch features used:** Tenant isolation, timeout detection, audit log, scheduled execution, dead letter alerting
+
+### 🛒 Order Fulfillment Workflows
+
+An e-commerce backend processes orders through stages: payment validation → inventory reservation → shipping label generation → carrier dispatch. Each stage is a separate job. Failures at any stage trigger retries with backoff, and the event timeline shows exactly where an order got stuck.
+
+> **Epoch features used:** Retry with backoff, event audit timeline, job state machine, worker heartbeats
+
+### 🔬 Scientific Computing & Simulations
+
+A research lab runs Monte Carlo simulations across a worker pool. Each simulation variant is a job. The multi-level priority queue ensures funded research projects run before exploratory ones. Leader-elected scheduling guarantees exactly-once assignment even when scheduler nodes restart.
+
+> **Epoch features used:** Leader election, priority queue, distributed worker pool, fault tolerance
 
 ---
 
